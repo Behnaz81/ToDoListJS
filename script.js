@@ -17,7 +17,7 @@ document.getElementById("addTaskForm").addEventListener("submit", function(event
 
         row.innerHTML = `
             <td scope=\"row\">${numberOfTasks}</td>
-            <td class=\"title\">${newTask.value}</td>
+            <td class=\"title\" contenteditable="true">${newTask.value}</td>
             <td><input class=\"form-check-input complete\" type=\"checkbox\"></td>
             <td><button class=\"btn btn-danger deleteTask\">Delete</button></td>
         `;
@@ -45,6 +45,17 @@ document.getElementById("addTaskForm").addEventListener("submit", function(event
             checklist.disabled = true;
             row.querySelector(".title").classList.toggle("text-decoration-line-through")
 
+        });
+
+        const titleCell = row.querySelector(".title");
+        const title = titleCell.textContent;
+
+        titleCell.addEventListener("blur", function() {
+            const updatedTitle = titleCell.textContent.trim();
+            if(updatedTitle === "") {
+                alert("Task title cannot be empty!");
+                titleCell.textContent = title;   
+            }
         })
     }
 });
