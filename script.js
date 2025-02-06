@@ -18,11 +18,37 @@ document.getElementById("addTaskForm").addEventListener("submit", function(event
         row.innerHTML = `
             <td scope=\"row\">${numberOfTasks}</td>
             <td>${newTask.value}</td>
-            <td><button class=\"btn btn-danger\">Delete</button></td>
+            <td><button class=\"btn btn-danger deleteTask\">Delete</button></td>
         `;
 
         tableBody.appendChild(row);
 
         newTask.value = "";
+
+        row.querySelector(".deleteTask").addEventListener("click", function() {
+            row.remove();
+            numberOfTasks -= 1;
+
+            if(numberOfTasks === 0) {
+                const rowNoTask = document.createElement("tr");
+                rowNoTask.innerHTML = "<td colspan=\"3\" class=\"text-center fw-bold\" id=\"noTask\">No task to display.</td>";
+                tableBody.appendChild(rowNoTask);
+            } else {
+                updateRows();
+            }
+        });
+
     }
-})
+});
+
+function updateRows() {
+    const rows = document.querySelectorAll("#tableBody tr");
+    let count = 1;
+
+    rows.forEach(row => {
+        if(row.querySelector("td")) {
+            row.querySelector("td").textContent = count;
+            count++;
+        }
+    });
+}
